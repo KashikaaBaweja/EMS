@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/vercel-build.cjs",
     "start": "next start",
     "lint": "eslint",
-    "make-admin": "tsx scripts/make-admin.ts"
+    "make-admin": "tsx scripts/make-admin.ts",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "vercel:link": "vercel link"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
