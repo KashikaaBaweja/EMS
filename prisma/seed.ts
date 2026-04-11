@@ -1,17 +1,18 @@
 import { Prisma } from "../src/generated/prisma/client";
 import { prisma } from "../src/lib/prisma";
 
-/**
- * Seed catalog: names and copy written like real shop listings—sizes, materials, author names.
- * Images use picsum with stable seeds so URLs stay consistent between runs.
- */
+/** Unsplash CDN — real photos matched to category (demo use; unsplash.com/license). */
+function unsplashPhoto(photoId: string) {
+  return `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&w=600&h=600&q=80`;
+}
+
 const CATALOG: {
   category: "Electronics" | "Clothing" | "Books" | "Home";
   name: string;
   description: string;
   price: string;
   stock: number;
-  imageSeed: string;
+  image: string;
 }[] = [
   {
     category: "Electronics",
@@ -20,7 +21,7 @@ const CATALOG: {
       "Folds flat for travel. Runs cool under load; good for laptops and tablets from one outlet. Includes a 6 ft cable.",
     price: "34.99",
     stock: 42,
-    imageSeed: "ems-charger-gan",
+    image: unsplashPhoto("1558618666-fcd25c85cd64"),
   },
   {
     category: "Electronics",
@@ -29,7 +30,7 @@ const CATALOG: {
       "Passthrough charging supported. HDMI does 4K at 60 Hz on most laptops. SD slot is UHS-I.",
     price: "49.50",
     stock: 28,
-    imageSeed: "ems-usbc-hub",
+    image: unsplashPhoto("1625948515291-69613efd103f"),
   },
   {
     category: "Electronics",
@@ -38,7 +39,7 @@ const CATALOG: {
       "20-hour battery with ANC on. Ear cups replaceable; case included. Not the lightest pair, but comfortable on long flights.",
     price: "129.00",
     stock: 15,
-    imageSeed: "ems-headphones-anc",
+    image: unsplashPhoto("1505740420928-5e560c06d30e"),
   },
   {
     category: "Electronics",
@@ -47,7 +48,7 @@ const CATALOG: {
       "Tool-free tray. Aluminum shell, gets warm under sustained writes—normal. Fits M.2 2280 drives only.",
     price: "27.95",
     stock: 60,
-    imageSeed: "ems-ssd-enclosure",
+    image: unsplashPhoto("1597872200969-2b65d56bd16b"),
   },
   {
     category: "Clothing",
@@ -56,7 +57,7 @@ const CATALOG: {
       "Midweight cotton. Runs slightly long in the body; size down if you’re between sizes. Machine wash cold, hang dry.",
     price: "58.00",
     stock: 34,
-    imageSeed: "ems-oxford-shirt",
+    image: unsplashPhoto("1594938298603-c8148c4dae35"),
   },
   {
     category: "Clothing",
@@ -65,7 +66,7 @@ const CATALOG: {
       "Fine merino blend, not paper-thin. Good with boots; no itchy seams at the toe.",
     price: "22.00",
     stock: 80,
-    imageSeed: "ems-merino-socks",
+    image: unsplashPhoto("1586350977771-b3b0abd50c82"),
   },
   {
     category: "Clothing",
@@ -74,7 +75,7 @@ const CATALOG: {
       "Rubber sole, runs half a size large. Laces included. Break in over a few wears.",
     price: "72.00",
     stock: 22,
-    imageSeed: "ems-canvas-sneakers",
+    image: unsplashPhoto("1549298916-b41d501d3772"),
   },
   {
     category: "Clothing",
@@ -83,7 +84,7 @@ const CATALOG: {
       "Rib knit, not too tall. One size; stretches to fit most heads without going baggy.",
     price: "32.00",
     stock: 45,
-    imageSeed: "ems-wool-beanie",
+    image: unsplashPhoto("1521572163474-6864f9cf17ab"),
   },
   {
     category: "Books",
@@ -92,7 +93,7 @@ const CATALOG: {
       "Paperback reprint. Essays on love and community—reads fast, worth revisiting.",
     price: "16.99",
     stock: 50,
-    imageSeed: "ems-book-hooks",
+    image: unsplashPhoto("1544947950-fa07a98d237f"),
   },
   {
     category: "Books",
@@ -101,7 +102,7 @@ const CATALOG: {
       "Novel, not the show tie-in. Tight pacing; good for a long weekend.",
     price: "17.00",
     stock: 38,
-    imageSeed: "ems-book-mandel",
+    image: unsplashPhoto("1512820790803-83ca734da794"),
   },
   {
     category: "Books",
@@ -110,7 +111,7 @@ const CATALOG: {
       "Cookbook that actually teaches taste. Illustrations throughout; stains easily if you cook from it—expected.",
     price: "35.00",
     stock: 12,
-    imageSeed: "ems-book-nosrat",
+    image: unsplashPhoto("1556910103-1c02745aae4d"),
   },
   {
     category: "Books",
@@ -119,7 +120,7 @@ const CATALOG: {
       "Heavy. About Robert Moses and New York. Buy if you mean it; it’s a doorstop.",
     price: "26.00",
     stock: 8,
-    imageSeed: "ems-book-caro",
+    image: unsplashPhoto("1481627834876-b7833e8f5570"),
   },
   {
     category: "Home",
@@ -128,7 +129,7 @@ const CATALOG: {
       "German steel, full tang. Hand-wash and dry—don’t run it through the dishwasher.",
     price: "89.00",
     stock: 19,
-    imageSeed: "ems-chef-knife",
+    image: unsplashPhoto("1565557623262-b51c2513a641"),
   },
   {
     category: "Home",
@@ -137,7 +138,7 @@ const CATALOG: {
       "Dishwasher-safe. Slight variation plate to plate because of the glaze.",
     price: "14.50",
     stock: 64,
-    imageSeed: "ems-stoneware-plate",
+    image: unsplashPhoto("1578662996442-48f60103fc96"),
   },
   {
     category: "Home",
@@ -146,7 +147,7 @@ const CATALOG: {
       "Pre-washed so it doesn’t feel like cardboard. Wrinkles are part of the deal with linen.",
     price: "36.00",
     stock: 30,
-    imageSeed: "ems-linen-napkins",
+    image: unsplashPhoto("1576566588028-4147f3842f27"),
   },
   {
     category: "Home",
@@ -155,7 +156,7 @@ const CATALOG: {
       "Burn time roughly 8 hours each. Trim wick to ¼ inch. Stand sold separately.",
     price: "18.00",
     stock: 55,
-    imageSeed: "ems-beeswax-candles",
+    image: unsplashPhoto("1434389677669-e08b4cac3105"),
   },
 ];
 
@@ -181,7 +182,7 @@ async function main() {
     name: p.name,
     description: p.description,
     price: new Prisma.Decimal(p.price),
-    image: `https://picsum.photos/seed/${encodeURIComponent(p.imageSeed)}/600/600`,
+    image: p.image,
     category: p.category,
     stock: p.stock,
   }));
