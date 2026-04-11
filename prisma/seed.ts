@@ -160,9 +160,22 @@ const CATALOG: {
 ];
 
 async function main() {
-  await prisma.orderItem.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.product.deleteMany();
+  const reset = process.env.SEED_RESET === "true";
+
+  if (reset) {
+    await prisma.orderItem.deleteMany();
+    await prisma.order.deleteMany();
+    await prisma.product.deleteMany();
+    console.log("[seed] SEED_RESET=true — cleared orders and products.");
+  } else {
+    const existing = await prisma.product.count();
+    if (existing > 0) {
+      console.log(
+        `[seed] Skip: ${existing} products already in the database. Set SEED_RESET=true to wipe and reseed (dev only).`,
+      );
+      return;
+    }
+  }
 
   const rows = CATALOG.map((p) => ({
     name: p.name,
